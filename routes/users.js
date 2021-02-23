@@ -84,6 +84,28 @@ router.delete('/:id',async (req, res) => {
 
 });
 
+router.put('/:id',async (req, res) => {
+  const {id} = req.params;
+  const resp=req.body;
+    const user = new animalSchema({
+        id:resp.id,
+        name:resp.animalsname,
+        age:resp.animalsage,
+    });
+    const result = schema.validate(user)
+    if (result.error) return res.status(400).send(result.error.details[0].message);
+    try{
+      UserSchema.findOne({id:id}).then(user =>{
+        const removedUser = UserSchema.actualizarAnimal(user._id,user);
+        res.json(removedUser);
+      }).catch(function(error){
+        res.send(error);
+         });
+      
+    }catch(err){
+      res.json({message:err});
+    }
+});
 
 
 
