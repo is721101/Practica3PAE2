@@ -2,7 +2,7 @@ let express = require('express');
 const { remove } = require('../DB/animals');
 let router = express.Router();
 const Joi=require('joi');
-const AnimalSchema = require('../DB/animals');
+const animalSchema = require('../DB/animals');
 const axios = require('axios');
 const userSchema=require('../DB/User');
 
@@ -18,7 +18,7 @@ const schema = Joi.object({
 
 
 router.get('/', async function(req, res) {
-  AnimalSchema.find().then( animals=>{
+  animalSchema.find().then( animals=>{
     const animalsPromises = animals.map(() => {
       return new Promise((resolve, reject) => {
         axios.get('https://api.thecatapi.com/v1/images/search')
@@ -50,7 +50,7 @@ router.get('/:id', (req, res) => {
   const {id} = req.params;
   const {url} = req.query;
  
-  AnimalSchema.find({id:id}).then( animal=>{
+  animalSchema.find({id:id}).then( animal=>{
     const properties = Object.keys(animal).map(property => animal[property])
     console.log(properties)
     res.render('info.hbs', {animalname: animal.animalname, properties, image: url})
@@ -60,7 +60,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/',async (req,res)=>{
   const resp=req.body;
-    const animal = new AnimalSchema({
+    const animal = new animalSchema({
         id:resp.id,
         animalsname:resp.animalsname,
         breedname:resp.breedname,
@@ -78,7 +78,7 @@ router.post('/',async (req,res)=>{
 router.delete('/:id',async (req, res) => {
   const {id} = req.params;
   try{
-    const removedAnimal = await AnimalSchema.remove({id:id});
+    const removedAnimal = await animalSchema.remove({id:id});
     res.json(removedAnimal);
   }catch(err){
     res.json({message:err});
@@ -88,7 +88,7 @@ router.delete('/:id',async (req, res) => {
 router.put('/:id',async (req, res) => {
   const {id} = req.params;
   const resp=req.body;
-    const animal = new AnimalSchema({
+    const animal = new animalSchema({
         id:resp.id,
         animalsname:resp.animalsname,
         breedname:resp.breedname,
@@ -109,7 +109,7 @@ router.get('/adopted/:id', (req, res) => {
 
   const {id} = req.params;
  
-  AnimalSchema.find({id:id}).then( animal=>{
+  animalSchema.find({id:id}).then( animal=>{
     const properties = Object.keys(animal).map(property => animal[property])
     console.log(properties)
    
@@ -117,28 +117,6 @@ router.get('/adopted/:id', (req, res) => {
   
   })
 });
-router.get('/adoption/:id', async(req, res) => {
-  const {id} = req.params;
-  const ownerid = req.query.ownerid;
-  userSchema.buscarID(ownerid).then(user=>
-    {
-      console.log(user);
-  if(!user){
-    res.status(401).send("Error");
-    console.log("Error");
-  }
 
-  AnimalSchema.updateOne({id:id},{ $set:{owner:user.name}}).then( _ =>{
-    console.log( req.query)
-    res.status(200).send(user);
-    res.end(); 
-
-  }) 
-    }
-  );
-  
-
-
-});
 
 module.exports = router;

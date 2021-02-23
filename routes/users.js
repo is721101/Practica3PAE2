@@ -1,29 +1,29 @@
 let express = require('express');
 let router = express.Router();
-const AnimalSchema = require('../DB/animals');
+const animalSchema = require('../DB/animals');
 const UserSchema = require('../DB/User');
 const Joi=require('joi');
 
 const schema = Joi.object({
+  ownerid:Joi.number().required(),
   name:Joi.string().required(),
   age: Joi.number().required(),
 });
 
 
 router.get('/', async (req, res) => {
-  console.log("Users");
-  let respuesta=UserSchema.showuser();
-  if(respuesta){
-            res.status(200).send(respuesta);
-            res.render('user',respuesta);
-        }
-        else{
-            res.status(401).send("Error");
-        }
+  try{
+    const Users = await UserSchema.find();
+    console.log(Users)
+    res.json(Users);
+  }catch(err){
+    res.status(200).json({message:err});
+  }
+
 });
 router.post('/',async (req,res)=>{
   const user = new UserSchema({
-      id:req.body.id,
+      ownerid:req.body.ownerid,
       name:req.body.name,
       age:req.body.age
   });

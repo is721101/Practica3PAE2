@@ -25,7 +25,7 @@ const AnimalSchema = mongoose.Schema({
   basecolour:{
     type:String,
   },
-  userid:{
+  owner:{
     type:String
   }
 
@@ -34,4 +34,4 @@ const AnimalSchema = mongoose.Schema({
 
 
 
-module.exports = mongoose.model('Animal',AnimalSchema);
+module.exports = mongoose.model('animal',AnimalSchema);

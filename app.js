@@ -18,6 +18,7 @@ mongoose.connect(process.env.DB_CONNECTION,{useNewUrlParser:true},() =>
 );*/
 
 const indexRouter = require('./routes/index');
+const adoptionRouter = require('./routes/adoption');
 const usersRouter = require('./routes/users');
 
 
@@ -37,8 +38,9 @@ app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __di
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.use('/', indexRouter);
+app.use('/animals', indexRouter);
 app.use('/users', usersRouter);
+app.use('/adoption', adoptionRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));
