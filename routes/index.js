@@ -96,10 +96,16 @@ router.put('/:id',async (req, res) => {
         animalsage:resp.animalsage,
         basecolour:resp.basecolour
     });
+    const result = schema.validate(animal)
     if (result.error) return res.status(400).send(result.error.details[0].message);
     try{
-      const removedAnimal = await AnimalSchema.updateOne({id:id});
-      res.json(removedAnimal);
+      AnimalSchema.findOne({id:id}).then(animal =>{
+        const removedAnimal = AnimalSchema.actualizarAnimal(animal._id,animal);
+        res.json(removedAnimal);
+      }).catch(function(error){
+        res.send(error);
+         });
+      
     }catch(err){
       res.json({message:err});
     }

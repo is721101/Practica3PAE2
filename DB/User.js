@@ -9,12 +9,10 @@ const UserSchema = mongoose.Schema({
   },
   name:{
     type:String,
-    required:true,
-    minimum: 5
   },
   age:{
     type:Number,
-    required:true
+
   }
 })
 

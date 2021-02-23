@@ -6,8 +6,8 @@ const Joi=require('joi');
 
 const schema = Joi.object({
   ownerid:Joi.number().required(),
-  name:Joi.string().required(),
-  age: Joi.number().required(),
+  name:Joi.string().min(5).required(),
+  age: Joi.number().min(5).required(),
 });
 
 
