@@ -14,6 +14,11 @@ const UserSchema = mongoose.Schema({
     required:true
   }
 })
+UserSchema.statics.showUser= async (id) => {
+    let resp = await user.find();
+    console.log(resp);
+    return resp;
+};
 UserSchema.statics.buscarID = async (id) => {
     mongoose.set('debug', true);
   let user = await User.findOne({
@@ -23,4 +28,6 @@ UserSchema.statics.buscarID = async (id) => {
   return user;
 };
 
-module.exports= mongoose.model('User',UserSchema);
+
+let User= mongoose.model('User',UserSchema);
+module.exports=User;
