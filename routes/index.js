@@ -119,8 +119,10 @@ router.get('/adopted/:id', (req, res) => {
 });
 router.get('/adoption/:id', async(req, res) => {
   const {id} = req.params;
-  const {owner} = req.query.owner;
-  let user=userSchema.buscarID(owner);
+  const ownerid = req.query.ownerid;
+  userSchema.buscarID(ownerid).then(user=>
+    {
+      console.log(user);
   if(!user){
     res.status(401).send("Error");
     console.log("Error");
@@ -128,11 +130,13 @@ router.get('/adoption/:id', async(req, res) => {
 
   AnimalSchema.updateOne({id:id},{ $set:{owner:user.name}}).then( _ =>{
     console.log( req.query)
-    res.statusCode = 302;
-    res.redirect('/');
+    res.status(200).send(user);
     res.end(); 
 
   }) 
+    }
+  );
+  
 
 
 });

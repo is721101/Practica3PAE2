@@ -11,8 +11,15 @@ const schema = Joi.object({
 
 
 router.get('/', async (req, res) => {
-  UserSchema.showuser();
-  
+  console.log("Users");
+  let respuesta=UserSchema.showuser();
+  if(respuesta){
+            res.status(200).send(respuesta);
+            res.render('user',respuesta);
+        }
+        else{
+            res.status(401).send("Error");
+        }
 });
 router.post('/',async (req,res)=>{
   const user = new UserSchema({

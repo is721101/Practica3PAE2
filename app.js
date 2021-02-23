@@ -6,16 +6,16 @@ const lessMiddleware = require('less-middleware');
 const logger = require('morgan');
 const hbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-require('dotenv/config');
+//require('dotenv/config');
 
 
 
-// Database connection
+/* Database connection
 const mongoose = require('mongoose');
  
 mongoose.connect(process.env.DB_CONNECTION,{useNewUrlParser:true},() =>
   console.log('Conectado a la base de datos')
-);
+);*/
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');

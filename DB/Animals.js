@@ -1,4 +1,8 @@
-const mongoose = require('mongoose');
+const mongoose = require('./mongodb');
+
+const {
+    mongo
+} = require('mongoose')
 
 const AnimalSchema = mongoose.Schema({
   id:{
@@ -8,20 +12,20 @@ const AnimalSchema = mongoose.Schema({
     type:String,
 
   },
-  breedname:{
-    type:String,
-  },
   speciesname:{
     type:String,
   },
-  animalsage:{
+  animalage:{
+    type:String,
+  },
+  sexname:{
     type:String,
  
   },
   basecolour:{
     type:String,
   },
-  owner:{
+  userid:{
     type:String
   }
 

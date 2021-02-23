@@ -1,33 +1,51 @@
-const mongoose = require('mongoose');
+const mongoose = require('./mongodb');
+const {
+    mongo
+} = require('mongoose');
 
 const UserSchema = mongoose.Schema({
-  id:{
+  ownerid:{
     type:Number
   },
   name:{
     type:String,
-    required:true,
-    minimum: 5
   },
   age:{
     type:Number,
-    required:true
   }
 })
+
 UserSchema.statics.showUser= async (id) => {
-    let resp = await user.find();
-    console.log(resp);
-    return resp;
+    let resp = await User.find();
+    let arr=[];
+    for(u in resp){
+      arr.push(u);
+    }
+    console.log(arr);
+    return arr;
 };
-UserSchema.statics.buscarID = async (id) => {
-    mongoose.set('debug', true);
-  let user = await User.findOne({
-      id,
-  });
-  console.log("Usaurio:"+ user);
-  return user;
+UserSchema.statics.buscarID = async (ownerid) => {
+  /*let resp;
+  await User.findOne(
+    {
+      "name":"Iván"
+    }
+  ).then(v=>{
+    console.log(v);
+    resp=v;
+  }
+  )
+  console.log(resp); 
+  return resp;*/
+  User.findOne(
+    {
+      "name":"Iván"
+    }
+  ).then(v=>{
+    console.log(v);
+  })
 };
 
 
-let User= mongoose.model('User',UserSchema);
+let User= mongoose.model('User', UserSchema);
 module.exports=User;
