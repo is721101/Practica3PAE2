@@ -37,13 +37,10 @@ UserSchema.statics.buscarID = async (ownerid) => {
   )
   console.log(resp); 
   return resp;*/
-  User.findOne(
-    {
-      "name":"Iván"
-    }
-  ).then(v=>{
-    console.log(v);
-  })
+ User.findOne({'name' :  "Iván"}, function(err, result) {
+
+console.log("result:"+result);
+});
 };
 
 
