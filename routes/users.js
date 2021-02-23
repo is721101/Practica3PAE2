@@ -1,5 +1,4 @@
 let express = require('express');
-const { remove } = require('../DB/animals');
 let router = express.Router();
 const AnimalSchema = require('../DB/animals');
 const UserSchema = require('../DB/User');
@@ -64,6 +63,12 @@ router.get('/:id',(req, res) => {
     res.send(error);
   });
 
+});
+router.get('/adopt/:id',(req, res) => {
+  const id=req.query.userid
+    const {idAnimal} = req.params;
+    UserSchema.showuser(id);
+    res.redirect("/animals")
 });
 
 router.delete('/:id',async (req, res) => {

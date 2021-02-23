@@ -33,7 +33,7 @@ app.use(bodyParser.json());
 
 
 
-app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + './views/layouts'}));
+app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutsDir: __dirname + '/views/layouts'}));
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
@@ -45,8 +45,10 @@ app.use(function(req, res, next) {
 });
 app.use(function(err, req, res, next) {
     res.locals.message = err.message;
+    console.log(err.message);
     res.status(err.status || 500);
     res.render('error');
  });
 
+ app.listen(3000, () => console.log('Listening on port 3000'));
 module.exports = app;

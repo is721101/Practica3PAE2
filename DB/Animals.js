@@ -4,7 +4,7 @@ const AnimalSchema = mongoose.Schema({
   id:{
     type:Number
   },
-  animalsname:{
+  animalname:{
     type:String,
 
   },
@@ -22,9 +22,12 @@ const AnimalSchema = mongoose.Schema({
     type:String,
   },
   owner:{
-    type:Number
+    type:String
   }
 
 })
+
+
+
 
 module.exports = mongoose.model('Animal',AnimalSchema);

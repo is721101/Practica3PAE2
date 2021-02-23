@@ -3,6 +3,8 @@ const { remove } = require('../DB/animals');
 let router = express.Router();
 const Joi=require('joi');
 const AnimalSchema = require('../DB/animals');
+const axios = require('axios');
+const userSchema=require('../DB/User');
 
 const schema = Joi.object({
   animalname:Joi.string().min(5).required(),
@@ -33,7 +35,7 @@ router.get('/', async function(req, res) {
     Promise.all(animalsPromises)
       .then(function(urls) {
         const animalsWithImage = animals.map((animal, index) => ({...animal, image: urls[index]}));     
-        console.log("Entrando a get")
+        
         res.render('index', { animalsWithImage });
       })
       .catch(function(errors) {
@@ -103,18 +105,36 @@ router.put('/:id',async (req, res) => {
     }
 });
 
-router.get('adopted/:id', (req, res) => {
+router.get('/adopted/:id', (req, res) => {
 
   const {id} = req.params;
-  const {url} = req.query;
  
   AnimalSchema.find({id:id}).then( animal=>{
     const properties = Object.keys(animal).map(property => animal[property])
     console.log(properties)
-    res.render('adopt.hbs', {animalname: animal.animalname, properties, image: url})
+   
+    res.render('adopt', {animalname: animal.animalname, properties})
   
   })
 });
+router.get('/adoption/:id', async(req, res) => {
+  const {id} = req.params;
+  const {owner} = req.query.owner;
+  let user=userSchema.buscarID(owner);
+  if(!user){
+    res.status(401).send("Error");
+    console.log("Error");
+  }
 
+  AnimalSchema.updateOne({id:id},{ $set:{owner:user.name}}).then( _ =>{
+    console.log( req.query)
+    res.statusCode = 302;
+    res.redirect('/');
+    res.end(); 
+
+  }) 
+
+
+});
 
 module.exports = router;

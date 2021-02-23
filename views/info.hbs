@@ -1,16 +1,17 @@
-  
 <div class="card individual">
   <h2>{{ animalname}}</h2>
   <img src={{image}} alt="">
   {{#each properties}}
  <br><br>
 
-   <span><strong>Name: </strong> {{_doc.animalsname}}</span>
-  <span><strong>Specie: </strong> {{_doc.speciesname}}</span>
-  <span><strong>Colour: </strong>{{_doc.basecolour}}</span>
-  <span><strong>Age: </strong>{{_doc.animalage}}</span>
+   <span><strong> Name: </strong> {{_doc.animalname}}</span>
   <span><strong>Breed: </strong>{{_doc.breedname}}</span>
+  <span><strong>Specie: </strong> {{_doc.speciesname}}</span>
+  <span><strong>Age: </strong>{{_doc.animalage}}</span>
+  <span><strong>Colour: </strong>{{_doc.basecolour}}</span>
   <span><strong>Owner: </strong>{{_doc.owner}}</span>
+  <a href="/adopted/{{_doc.id}} "> <button>Adopt</button></a>
+
   {{/each}}
-  <a href="/animals/adopt/{{properties.id}}"><button>Adopt</button></a>
+  
 </div>

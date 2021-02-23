@@ -1,5 +1,3 @@
-
-
 const mongoose = require('mongoose');
 
 const UserSchema = mongoose.Schema({
@@ -8,10 +6,21 @@ const UserSchema = mongoose.Schema({
   },
   name:{
     type:String,
+    required:true,
+    minimum: 5
   },
   age:{
     type:Number,
+    required:true
   }
 })
+UserSchema.statics.buscarID = async (id) => {
+    mongoose.set('debug', true);
+  let user = await User.findOne({
+      id,
+  });
+  console.log("Usaurio:"+ user);
+  return user;
+};
 
-module.exports = mongoose.model('User',UserSchema);
+module.exports= mongoose.model('User',UserSchema);
