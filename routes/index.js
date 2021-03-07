@@ -36,7 +36,7 @@ router.get('/', async function(req, res) {
       .then(function(urls) {
         const animalsWithImage = animals.map((animal, index) => ({...animal, image: urls[index]}));     
         
-        res.render('index', { animalsWithImage });
+        res.render('index', { animalsWithImage,isLoggedIn:Boolean(req.user) });
       })
       .catch(function(errors) {
         res.send(`${errors}`)
@@ -53,7 +53,7 @@ router.get('/:id', (req, res) => {
   animalSchema.find({id:id}).then( animal=>{
     const properties = Object.keys(animal).map(property => animal[property])
     console.log(properties)
-    res.render('info.hbs', {animalname: animal.animalname, properties, image: url})
+    res.render('info.hbs', {animalname: animal.animalname, properties, image: url,isLoggedIn:Boolean(req.user)})
   
   })
 });
@@ -119,7 +119,7 @@ router.get('/adopted/:id', (req, res) => {
     const properties = Object.keys(animal).map(property => animal[property])
     console.log(properties)
    
-    res.render('adopt', {animalname: animal.animalname, properties})
+    res.render('adopt', {animalname: animal.animalname, properties,isLoggedIn:Boolean(req.user)})
   
   })
 });

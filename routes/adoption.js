@@ -12,7 +12,7 @@ const {_id} = req.params;
     name_owner = user.name;
     })
     await animalSchema.findOne({_id:_id}).then(animal=>{
-        animal.owner=name_owner;
+        animal.owner=name_owner==""?animal.owner:name_owner;
         animalSchema.actualizarAnimal(_id,animal);
         res.statusCode = 302;
         res.redirect('/animals') 
